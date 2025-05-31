@@ -35,7 +35,7 @@ export class UsersService {
     await client.messages.create({
     body: `Your OTP is: ${otp}`,
     from: twilioNumber,
-    to: "+94719133821", 
+    to: user.mobile, 
     });
         return savedUser;
   }
