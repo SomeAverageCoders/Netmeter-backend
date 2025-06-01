@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable } from 'typeorm';
 import { Exclude } from 'class-transformer';
+import { Group } from 'src/groups/group.entity';
 
 @Entity()
 export class User {
@@ -24,4 +25,7 @@ export class User {
   @Column()
   @Exclude()
   password: string;
+
+   @ManyToMany(() => Group, group => group.members)
+  groups: Group[];
 }

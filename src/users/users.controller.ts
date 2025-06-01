@@ -16,7 +16,7 @@ export class UsersController {
   }
 
     @Post('verify')
-  async verifyOtp(@Body() dto: VerifyOtpDto): Promise<string> {
+  async verifyOtp(@Body() dto: VerifyOtpDto): Promise<{ statusCode: number; message: string }> {
     return this.usersService.verifyOtp(dto);
   }
 

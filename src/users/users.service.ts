@@ -1,4 +1,4 @@
-import { Injectable , UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable , NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
@@ -47,20 +47,23 @@ export class UsersService {
         return savedUser;
   }
 
-    async verifyOtp(dto: VerifyOtpDto): Promise<string> {
+    async verifyOtp(dto: VerifyOtpDto): Promise<{ statusCode: number; message: string }> {
     const validOtp = getOtp(dto.mobile);
     if (validOtp && validOtp === dto.otp) {
       const user = await this.usersRepository.findOneBy({ email: dto.email });
       if (!user) {
-        throw new Error('User not found');
+        throw new NotFoundException('User not found');
       }
 
       user.isVerified = true;
       await this.usersRepository.save(user);
       removeOtp(dto.mobile);
-      return 'Phone number verified successfully';
+        return {
+            statusCode: 201,
+            message: 'Phone number verified successfully',
+            };
     } else {
-      throw new Error('Invalid OTP');
+      throw new BadRequestException('Invalid OTP');
     }
 }
 
