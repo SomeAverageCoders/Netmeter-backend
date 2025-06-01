@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable , UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
-import { CreateUserDto } from 'src/dto/user.dto';
+import { CreateUserDto, LoginUserDto } from 'src/dto/user.dto';
 import { VerifyOtpDto } from 'src/dto/verify-otp.dto';
 import { storeOtp, getOtp, removeOtp } from 'src/helper/otp-store';
 import { Twilio } from 'twilio';
@@ -26,6 +26,7 @@ export class UsersService {
     const user = this.usersRepository.create({
       ...dto,
       password: hashedPassword, 
+      userRole:"user",
       isVerified: false,
     });
 
@@ -60,5 +61,29 @@ export class UsersService {
       throw new Error('Invalid OTP');
     }
 }
+
+  // Validate user login
+  async validateUser(loginDto: LoginUserDto): Promise<User> {
+    const user = await this.usersRepository.findOne({
+      where: { email: loginDto.email },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException('Invalid email or password');
+    }
+
+    const passwordMatch = await bcrypt.compare(loginDto.password, user.password);
+    if (!passwordMatch) {
+      throw new UnauthorizedException('Invalid email or password');
+    }
+
+    return user;
+  }
+
+async findByEmail(email: string): Promise<User | undefined> {
+  const user = await this.usersRepository.findOne({ where: { email } });
+  return user ?? undefined; 
+}
+
 }
 
