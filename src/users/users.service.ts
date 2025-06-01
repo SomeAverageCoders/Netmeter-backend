@@ -7,6 +7,8 @@ import { VerifyOtpDto } from 'src/dto/verify-otp.dto';
 import { storeOtp, getOtp, removeOtp } from 'src/helper/otp-store';
 import { Twilio } from 'twilio';
 import * as bcrypt from 'bcrypt';
+import { ILike } from 'typeorm';
+
 
 const accountSid = 'AC058c0390e34dcec4c54d7072898e53f9';
 const authToken = '593a85502b66caae5977219e07f94ff5';
@@ -80,10 +82,18 @@ export class UsersService {
     return user;
   }
 
-async findByEmail(email: string): Promise<User | undefined> {
-  const user = await this.usersRepository.findOne({ where: { email } });
-  return user ?? undefined; 
-}
+    //find by email
+    async findByEmail(email: string): Promise<User | undefined> {
+    const user = await this.usersRepository.findOne({ where: { email } });
+    return user ?? undefined; 
+    }
+
+    //find by username
+    async findByName(name: string): Promise<User[]> {
+    return this.usersRepository.find({
+        where: { name: ILike(`%${name}%`) },
+    });
+    }
 
 }
 

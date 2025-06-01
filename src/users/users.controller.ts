@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Get, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto , LoginUserDto} from 'src/dto/user.dto';
 import { User } from './user.entity';
@@ -24,7 +24,6 @@ export class UsersController {
   async login(@Body() loginDto: LoginUserDto) {
     const user = await this.usersService.validateUser(loginDto);
 
-    // You can optionally return a token here (JWT)
     return {
       message: 'Login successful',
       user: {
@@ -36,4 +35,10 @@ export class UsersController {
       },
     };
   }
+
+    @Get('search')
+    async searchUsersByName(@Query('name') name: string): Promise<User[]> {
+    return this.usersService.findByName(name);
+    }
+
 }
