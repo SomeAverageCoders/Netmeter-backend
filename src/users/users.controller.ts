@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Query } from '@nestjs/common';
+import { Controller, Post, Body, Get, Query, Param, ParseIntPipe  } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto , LoginUserDto} from 'src/dto/user.dto';
 import { User } from './user.entity';
@@ -38,7 +38,12 @@ export class UsersController {
 
     @Get('search')
     async searchUsersByName(@Query('name') name: string): Promise<User[]> {
-    return this.usersService.findByName(name);
+        return this.usersService.findByName(name);
     }
+
+    @Get(':id')
+    async getUserById(@Param('id', ParseIntPipe) id: number) {
+        return this.usersService.findUserById(id);
+  }
 
 }

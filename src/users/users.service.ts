@@ -98,5 +98,17 @@ export class UsersService {
     });
     }
 
+    async findUserById(id: number): Promise<{ statusCode: number; data: User }> {
+    const user = await this.usersRepository.findOne({ where: { id } });
+
+    if (!user) {
+      throw new NotFoundException(`User with ID ${id} not found`);
+    }
+
+    return {
+      statusCode: 200,
+      data: user,
+    };
+  }
 }
 
