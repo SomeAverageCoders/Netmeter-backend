@@ -3,7 +3,7 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from 'src/dto/user.dto';
 import { User } from './user.entity';
 import { VerifyOtpDto } from 'src/dto/verify-otp.dto';
-
+import { plainToInstance } from 'class-transformer';
 
 @Controller('users')
 export class UsersController {
@@ -11,7 +11,8 @@ export class UsersController {
 
   @Post()
   async createUser(@Body() dto: CreateUserDto): Promise<User> {
-    return this.usersService.createUser(dto);
+    var savedUser = this.usersService.createUser(dto)
+    return plainToInstance(User, savedUser); 
   }
 
     @Post('verify')
