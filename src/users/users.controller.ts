@@ -4,6 +4,7 @@ import { CreateUserDto , LoginUserDto} from 'src/dto/user.dto';
 import { User } from './user.entity';
 import { VerifyOtpDto } from 'src/dto/verify-otp.dto';
 import { plainToInstance } from 'class-transformer';
+import { UserSummaryDto } from './user-summary.dto';
 
 @Controller('users')
 export class UsersController {
@@ -37,8 +38,8 @@ export class UsersController {
   }
 
     @Get('search')
-    async searchUsersByName(@Query('name') name: string): Promise<User[]> {
-        return this.usersService.findByName(name);
+    async searchUsersByName(@Query('name') name: string): Promise<UserSummaryDto[]> {
+      return this.usersService.findByName(name);
     }
 
     @Get(':id')

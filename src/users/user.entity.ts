@@ -26,6 +26,6 @@ export class User {
   @Exclude()
   password: string;
 
-   @ManyToMany(() => Group, group => group.members)
+  @ManyToMany(() => Group, group => group.members)
   groups: Group[];
 }

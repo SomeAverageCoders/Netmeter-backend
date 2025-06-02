@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { BadRequestException, Injectable , NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -8,6 +9,7 @@ import { storeOtp, getOtp, removeOtp } from 'src/helper/otp-store';
 import { Twilio } from 'twilio';
 import * as bcrypt from 'bcrypt';
 import { ILike } from 'typeorm';
+import { UserSummaryDto } from './user-summary.dto';
 
 
 const accountSid = 'AC058c0390e34dcec4c54d7072898e53f9';
@@ -92,10 +94,13 @@ export class UsersService {
     }
 
     //find by username
-    async findByName(name: string): Promise<User[]> {
-    return this.usersRepository.find({
+    async findByName(name: string): Promise<UserSummaryDto[]> {
+      const users = await this.usersRepository.find({
         where: { name: ILike(`%${name}%`) },
-    });
+        select: ['id', 'name', 'email'], // limits fields fetched from DB
+      });
+
+      return users;
     }
 
     async findUserById(id: number): Promise<{ statusCode: number; data: User }> {

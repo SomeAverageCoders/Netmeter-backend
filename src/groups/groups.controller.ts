@@ -1,4 +1,4 @@
-import { Controller, Body, Req, Post, Param } from '@nestjs/common';
+import { Controller, Body, Req, Post, Param, Get } from '@nestjs/common';
 import { CreateGroupDto } from './create-group.dto';
 import { GroupsService } from './groups.service';
 
@@ -13,4 +13,21 @@ export class GroupsController {
   ) {
     return this.groupsService.createGroup(dto, +creatorId);
   }
+
+  @Get('get/:userId')
+  async getGroupsByUserId(@Param('userId') userId: number) {
+  return this.groupsService.getGroupsByUserId(+userId);
+  }
+
+  @Get(':groupId/members')
+  async getGroupMembers(@Param('groupId') groupId: number) {
+    return this.groupsService.getGroupMembers(+groupId);
+  }
+
+  @Get(':groupId/member-count')
+  async getGroupMemberCount(@Param('groupId') groupId: number) {
+    const count = await this.groupsService.getGroupMemberCount(+groupId);
+    return { groupId, memberCount: count };
+  }
+
 }
