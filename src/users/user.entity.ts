@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, OneToMany, JoinTable } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { Group } from 'src/groups/group.entity';
+import { Device } from 'src/devices/device.entity';
 
 @Entity()
 export class User {
@@ -28,4 +29,7 @@ export class User {
 
   @ManyToMany(() => Group, group => group.members)
   groups: Group[];
+
+  @OneToMany(() => Device, device => device.owner)
+  devices: Device[];
 }

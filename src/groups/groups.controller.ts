@@ -1,4 +1,4 @@
-import { Controller, Body, Req, Post, Param, Get } from '@nestjs/common';
+import { Controller, Body, Req, Post, Param, Get, ParseIntPipe  } from '@nestjs/common';
 import { CreateGroupDto } from './create-group.dto';
 import { GroupsService } from './groups.service';
 
@@ -28,6 +28,19 @@ export class GroupsController {
   async getGroupMemberCount(@Param('groupId') groupId: number) {
     const count = await this.groupsService.getGroupMemberCount(+groupId);
     return { groupId, memberCount: count };
+  }
+
+  @Get(':groupId/members-with-devices')
+  async getGroupMembersWithDevices(@Param('groupId') groupId: number) {
+    return this.groupsService.getGroupMembersWithDevices(+groupId);
+  }
+
+  @Post(':groupId/add-member/:memberId')
+  async addMemberToGroup(
+    @Param('groupId', ParseIntPipe) groupId: number,
+    @Param('memberId', ParseIntPipe) memberId: number
+  ) {
+    return this.groupsService.addMemberToGroup(groupId, memberId);
   }
 
 }
