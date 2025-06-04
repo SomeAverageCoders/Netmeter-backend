@@ -1,4 +1,4 @@
-import { Controller, Body, Req, Post, Param, Get, ParseIntPipe  } from '@nestjs/common';
+import { Controller, Body, Req, Post, Param, Get, ParseIntPipe, Delete  } from '@nestjs/common';
 import { CreateGroupDto } from './create-group.dto';
 import { GroupsService } from './groups.service';
 
@@ -41,6 +41,14 @@ export class GroupsController {
     @Param('memberId', ParseIntPipe) memberId: number
   ) {
     return this.groupsService.addMemberToGroup(groupId, memberId);
+  }
+
+  @Delete(':groupId/remove-member/:memberId')
+  async removeMemberFromGroup(
+    @Param('groupId', ParseIntPipe) groupId: number,
+    @Param('memberId', ParseIntPipe) memberId: number,
+  ) {
+    return this.groupsService.removeMemberFromGroup(groupId, memberId);
   }
 
 }
