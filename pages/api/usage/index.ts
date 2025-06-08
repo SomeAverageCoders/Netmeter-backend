@@ -7,15 +7,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   if (req.method === 'POST') {
     try {
-      const { userId, deviceId, dataUsedMB } = req.body;
 
-      const usage = await Usage.create({
-        userId,
-        deviceId,
-        dataUsedMB,
-      });
+      await connectDB(); // Connect to MongoDB
+      const data = req.body;
 
-      res.status(201).json({ success: true, usage });
+    // Convert the structure from { "2025-06-08": {...} } to a flat object with "date"
+      const [date] = Object.keys(data);
+      const usageData = {
+        date,
+        ...data[date],
+      };
+
+      await Usage.create(usageData);
+
+      return res.status(200).json({ message: 'Usage data inserted successfully' });
     } catch (error) {
       res.status(400).json({ success: false, error: (error as Error).message });
     }
