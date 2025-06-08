@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, ForbiddenException } from '@nestjs/common';
 import { CreateGroupDto } from './create-group.dto';
 import { User } from 'src/users/user.entity';
 import { Group } from './group.entity';
@@ -124,13 +124,17 @@ export class GroupsService {
     };
   }
 
-  async addMemberToGroup(groupId: number, memberId: number): Promise<Group> {
+  async addMemberToGroup(groupId: number, memberId: number, currentUser: any): Promise<Group> {
     const group = await this.groupRepository.findOne({
       where: { id: groupId },
-      relations: ['members'],
+      relations: ['members', 'admin'],
     });
 
     if (!group) throw new Error('Group not found');
+
+    if (group.admin.id !== currentUser.userId) {
+        throw new ForbiddenException('Only the group admin can add members');
+    }
 
     const member = await this.userRepository.findOneBy({ id: memberId });
     if (!member) throw new Error('User not found');
@@ -146,13 +150,18 @@ export class GroupsService {
   async removeMemberFromGroup(
     groupId: number,
     memberId: number,
+    currentUser: any
   ): Promise<{ message: string }> {
     const group = await this.groupRepository.findOne({
       where: { id: groupId },
-      relations: ['members'],
+      relations: ['members', 'admin'],
     });
 
     if (!group) throw new Error('Group not found');
+
+    if (group.admin.id !== currentUser.userId) {
+        throw new ForbiddenException('Only the group admin can remove members');
+    }
 
     const member = await this.userRepository.findOneBy({ id: memberId });
     if (!member) throw new Error('User not found');

@@ -7,6 +7,8 @@ import { AuthModule } from './auth/auth.module';
 import { GroupsModule } from './groups/groups.module';
 import { DevicesModule } from './devices/devices.module';
 import { WifiModule } from './wifi/wifi.module';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from './auth/jwt-strategy/jwt-auth.guard';
 
 @Module({
   imports: [
@@ -27,6 +29,11 @@ import { WifiModule } from './wifi/wifi.module';
       WifiModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService,
+        {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+  ],
 })
 export class AppModule {}
