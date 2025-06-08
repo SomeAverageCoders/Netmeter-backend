@@ -38,9 +38,10 @@ export class GroupsController {
   @Post(':groupId/add-member/:memberId')
   async addMemberToGroup(
     @Param('groupId', ParseIntPipe) groupId: number,
-    @Param('memberId', ParseIntPipe) memberId: number
+    @Param('memberId', ParseIntPipe) memberId: number,
+    @Req() req: any
   ) {
-    return this.groupsService.addMemberToGroup(groupId, memberId);
+    return this.groupsService.addMemberToGroup(groupId, memberId, req.user);
   }
 
   @Delete(':groupId/remove-member/:memberId')
