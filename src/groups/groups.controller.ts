@@ -48,8 +48,9 @@ export class GroupsController {
   async removeMemberFromGroup(
     @Param('groupId', ParseIntPipe) groupId: number,
     @Param('memberId', ParseIntPipe) memberId: number,
+    @Req() req: any
   ) {
-    return this.groupsService.removeMemberFromGroup(groupId, memberId);
+    return this.groupsService.removeMemberFromGroup(groupId, memberId, req.user);
   }
 
 }
