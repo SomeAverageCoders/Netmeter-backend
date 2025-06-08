@@ -1,7 +1,9 @@
 import { Controller, Post, Param, Body, Get } from '@nestjs/common';
 import { WifiConfiguration } from './wifi-config.entity';
 import { WifiService } from './wifi.service';
+import { Public } from 'src/public.decorator';
 
+@Public()
 @Controller('wifi')
 export class WifiController {
   constructor(private wifiService: WifiService) {}
