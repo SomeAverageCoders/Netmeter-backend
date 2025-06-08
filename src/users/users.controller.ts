@@ -5,7 +5,9 @@ import { User } from './user.entity';
 import { VerifyOtpDto } from 'src/dto/verify-otp.dto';
 import { plainToInstance } from 'class-transformer';
 import { UserSummaryDto } from './user-summary.dto';
+import { Public } from 'src/public.decorator';
 
+@Public()
 @Controller('users')
 export class UsersController {
       constructor(private readonly usersService: UsersService) {}

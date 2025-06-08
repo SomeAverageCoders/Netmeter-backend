@@ -1,6 +1,8 @@
 import { Controller, Post, Body, Get, Param, Delete } from '@nestjs/common';
 import { DevicesService } from './devices.service';
+import { Public } from 'src/public.decorator';
 
+@Public()
 @Controller('devices')
 export class DevicesController {
   constructor(private devicesService: DevicesService) {}
