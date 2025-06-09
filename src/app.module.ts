@@ -18,7 +18,7 @@ import { DeviceUsageModule } from './device_usage/device_usage.module';
       host: 'netmeter.c1cykc4sulpy.eu-north-1.rds.amazonaws.com',
       port: 5432,
       username: 'postgres',
-      password: '',
+      password: 'Abcdef12',
       database: 'netmeter_v1',
       autoLoadEntities: true,
       synchronize: true, 
