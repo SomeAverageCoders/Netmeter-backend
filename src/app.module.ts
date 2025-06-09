@@ -14,13 +14,16 @@ import { JwtAuthGuard } from './auth/jwt-strategy/jwt-auth.guard';
   imports: [
       TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
+      host: 'netmeter.c1cykc4sulpy.eu-north-1.rds.amazonaws.com',
       port: 5432,
       username: 'postgres',
-      password: 'helani123',
-      database: 'Netmeter',
+      password: '',
+      database: 'netmeter_v1',
       autoLoadEntities: true,
       synchronize: true, 
+        ssl: {
+    rejectUnauthorized: false, 
+  },
     }),
       UsersModule,
       AuthModule,
