@@ -12,14 +12,14 @@ export class WifiConfiguration {
   @Column()
   ssid: string;
 
-  @Column()
-  dataQuota: string;
+  @Column('decimal', { precision: 20, scale: 2 })
+  dataQuota: number;
 
   @Column()
   status: boolean;
 
-  @Column()
-  dailyUsageLimitPerMember: string;
+  @Column('decimal', { precision: 20, scale: 2 })
+  dailyUsageLimitPerMember: number;
 
   @OneToOne(() => Group, group => group.wifiConfig)
   group: Group;
