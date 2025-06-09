@@ -9,6 +9,7 @@ import { DevicesModule } from './devices/devices.module';
 import { WifiModule } from './wifi/wifi.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/jwt-strategy/jwt-auth.guard';
+import { DeviceUsageModule } from './device_usage/device_usage.module';
 
 @Module({
   imports: [
@@ -17,8 +18,8 @@ import { JwtAuthGuard } from './auth/jwt-strategy/jwt-auth.guard';
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: 'helani123',
-      database: 'Netmeter',
+      password: 'Abcdef12@',
+      database: 'netmeter',
       autoLoadEntities: true,
       synchronize: true, 
     }),
@@ -27,6 +28,7 @@ import { JwtAuthGuard } from './auth/jwt-strategy/jwt-auth.guard';
       GroupsModule,
       DevicesModule,
       WifiModule,
+      DeviceUsageModule,
   ],
   controllers: [AppController],
   providers: [AppService,
