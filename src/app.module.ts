@@ -15,11 +15,11 @@ import { DeviceUsageModule } from './device_usage/device_usage.module';
   imports: [
       TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'netmeter.c1cykc4sulpy.eu-north-1.rds.amazonaws.com',
+      host: 'database-1.cxamcw6i0jpk.eu-north-1.rds.amazonaws.com',
       port: 5432,
       username: 'postgres',
-      password: 'Abcdef12',
-      database: 'netmeter_v1',
+      password: 'Helloworld',
+      database: 'postgres',
       autoLoadEntities: true,
       synchronize: true, 
         ssl: {
