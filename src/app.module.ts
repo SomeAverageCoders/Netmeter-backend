@@ -10,6 +10,7 @@ import { WifiModule } from './wifi/wifi.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/jwt-strategy/jwt-auth.guard';
 import { DeviceUsageModule } from './device_usage/device_usage.module';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { DeviceUsageModule } from './device_usage/device_usage.module';
       DevicesModule,
       WifiModule,
       DeviceUsageModule,
+      HealthModule,
   ],
   controllers: [AppController],
   providers: [AppService,
